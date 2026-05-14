@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KHU 약대 통합관리시스템</title>
+    <title>KHU 약대 동물실 & 공동기기 통합관리</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,6 +12,8 @@
         .nav-item.active { background-color: #f3f4f6; color: #8b0000; border-left: 4px solid #8b0000; font-weight: bold; }
         .page-section { display: none; }
         .page-section.active { display: block; }
+        input, select, textarea { background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.5rem; width: 100%; font-size: 0.875rem; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: #374151; margin-bottom: 0.25rem; }
     </style>
 </head>
 <body class="bg-gray-50 flex h-screen overflow-hidden">
@@ -39,7 +41,7 @@
                 <i class="fas fa-calendar-alt mr-3 w-5 text-center"></i> <span>기기 예약 서비스</span>
             </a>
 
-            <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">시스템</div>
+            <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">자료실</div>
             <a href="#archive" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-download mr-3 w-5 text-center"></i> <span>양식 자료실</span>
             </a>
@@ -52,31 +54,31 @@
         </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 relative">
+    <main class="flex-1 overflow-y-auto p-8">
         
         <section id="access" class="page-section">
             <div class="flex justify-between items-end mb-6">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-800">동물실 출입 현황 관리</h1>
-                    <p class="text-gray-500 text-sm">출입 통제 카드 신청 목록 및 권한 부여 상태를 관리합니다.</p>
+                    <p class="text-gray-500 text-sm">출입 통제 카드 신청 목록 및 권한 부여 상태입니다.</p>
                 </div>
             </div>
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead class="bg-gray-50 border-b border-gray-200">
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead class="bg-gray-50 border-b">
                         <tr>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">성명</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">소속</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">학번/사번</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">상태</th>
+                            <th class="px-6 py-3 font-bold text-gray-500 uppercase">성명</th>
+                            <th class="px-6 py-3 font-bold text-gray-500 uppercase">소속</th>
+                            <th class="px-6 py-3 font-bold text-gray-500 uppercase">학번/사번</th>
+                            <th class="px-6 py-3 font-bold text-gray-500 uppercase">상태</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y">
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm font-bold text-gray-900">박승훈</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">약학대학</td>
-                            <td class="px-6 py-4 text-sm font-mono text-gray-600">2024123456</td>
-                            <td class="px-6 py-4 text-xs"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span></td>
+                            <td class="px-6 py-4 font-bold">박승훈</td>
+                            <td class="px-6 py-4">약학대학</td>
+                            <td class="px-6 py-4 font-mono">2024123456</td>
+                            <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">권한 승인</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,12 +87,79 @@
 
         <section id="animal-apply" class="page-section">
             <div class="mb-6 border-b-4 border-red-800 pb-4">
-                <h1 class="text-2xl font-bold text-gray-800">실험동물 반입/반출 신청</h1>
-                <p class="text-gray-500 text-sm">IACUC 심의번호 및 동물 정보를 입력하여 신청합니다.</p>
+                <h1 class="text-2xl font-bold text-gray-800">실험동물 반입/반출 신청서</h1>
+                <p class="text-gray-500 text-sm">HWPX 서류 양식을 바탕으로 제작된 디지털 신청 폼입니다.</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">연구책임자</label>
-                            <input type="text" class="w-full border p-2
+            
+            <div class="bg-white p-8 rounded-xl shadow-sm border">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div>
+                        <label>연구책임자 (교수)</label>
+                        <input type="text" placeholder="성명 입력">
+                    </div>
+                    <div>
+                        <label>신청인 (연구원)</label>
+                        <input type="text" placeholder="성명 입력">
+                    </div>
+                    <div>
+                        <label>연구번호 (IACUC No.)</label>
+                        <input type="text" placeholder="KHUASP(SE)-00-000">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="md:col-span-2">
+                        <label>동물 종 및 계통</label>
+                        <input type="text" placeholder="예: Mouse / C57BL/6">
+                    </div>
+                    <div>
+                        <label>수량</label>
+                        <input type="number" placeholder="00 마리">
+                    </div>
+                    <div>
+                        <label>성별</label>
+                        <select>
+                            <option>암컷(Female)</option>
+                            <option>수컷(Male)</option>
+                            <option>혼합</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label>공급처 (반입처)</label>
+                        <input type="text" placeholder="예: 오리엔트바이오">
+                    </div>
+                    <div>
+                        <label>반입(반출) 예정일</label>
+                        <input type="date">
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg mb-8 border-2 border-dashed border-gray-300">
+                    <h4 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
+                        <i class="fas fa-paperclip mr-2"></i> 필수 증빙 서류 업로드
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-3 border rounded flex justify-between items-center">
+                            <span class="text-xs text-gray-600">IACUC 심의 결과통보서</span>
+                            <button class="text-xs font-bold text-red-800">파일 선택</button>
+                        </div>
+                        <div class="bg-white p-3 border rounded flex justify-between items-center">
+                            <span class="text-xs text-gray-600">동물실험 교육 이수증</span>
+                            <button class="text-xs font-bold text-red-800">파일 선택</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center space-x-4">
+                    <button class="khu-red text-white px-10 py-3 rounded-lg font-bold shadow-lg hover:opacity-90">신청서 제출</button>
+                    <button class="bg-gray-200 text-gray-700 px-10 py-3 rounded-lg font-bold">임시 저장</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="assets" class="page-section">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">공동기기실 비품 및 자산 대장</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
