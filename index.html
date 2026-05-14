@@ -1,72 +1,149 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>경희대 약대 관리시스템 프로토타입</title>
+    <title>경희대 약대 동물실/공동기기 통합관리시스템</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .khu-red { background-color: #8b0000; }
         .khu-text { color: #8b0000; }
+        .sidebar-link:hover { background-color: #f3f4f6; color: #8b0000; }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="khu-red text-white p-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">KHU Pharmacy Lab</h1>
-            <div class="space-x-6">
-                <a href="#" class="hover:underline">동물실 신청</a>
-                <a href="#" class="hover:underline">기기 예약</a>
-                <a href="#" class="hover:underline">마이페이지</a>
-                <button class="bg-white text-red-900 px-4 py-1 rounded text-sm font-bold">Info21 Logout</button>
-            </div>
-        </div>
-    </nav>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
-    <main class="container mx-auto mt-8 p-4">
-        <!-- Dashboard Card -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow border-t-4 border-red-700">
-                <h2 class="font-bold text-lg mb-2">실험동물 반입</h2>
-                <p class="text-gray-600 text-sm mb-4">IACUC 심의 결과 및 반입 신청서를 작성합니다.</p>
-                <button class="khu-red text-white px-4 py-2 rounded w-full">신청하기</button>
+    <div class="flex flex-col md:flex-row">
+        <div class="bg-white shadow-xl h-screen md:w-64 w-full md:fixed">
+            <div class="p-6 khu-red text-white font-bold text-xl flex items-center">
+                <i class="fas fa-university mr-2"></i> KHU 약학대학
             </div>
-            <div class="bg-white p-6 rounded-lg shadow border-t-4 border-blue-700">
-                <h2 class="font-bold text-lg mb-2">공동기기 예약</h2>
-                <p class="text-gray-600 text-sm mb-4">약학대학 보유 고가 장비를 예약합니다.</p>
-                <button class="bg-blue-800 text-white px-4 py-2 rounded w-full">예약하기</button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow border-t-4 border-green-700">
-                <h2 class="font-bold text-lg mb-2">LMO 관리대장</h2>
-                <p class="text-gray-600 text-sm mb-4">취급 및 관리 이력을 기록합니다.</p>
-                <button class="bg-green-800 text-white px-4 py-2 rounded w-full">작성하기</button>
-            </div>
+            <nav class="mt-4">
+                <p class="px-6 py-2 text-xs font-semibold text-gray-500 uppercase">동물실 관리</p>
+                <a href="#animal-apply" class="sidebar-link flex items-center px-6 py-3 text-gray-700 border-l-4 border-transparent hover:border-red-800">
+                    <i class="fas fa-file-import mr-3"></i> 반입/반출 신청
+                </a>
+                <a href="#animal-status" class="sidebar-link flex items-center px-6 py-3 text-gray-700 border-l-4 border-transparent hover:border-red-800">
+                    <i class="fas fa-clipboard-list mr-3"></i> 동물 현황 보고
+                </a>
+                <a href="#lmo-log" class="sidebar-link flex items-center px-6 py-3 text-gray-700 border-l-4 border-transparent hover:border-red-800">
+                    <i class="fas fa-biohazard mr-3"></i> LMO 관리대장
+                </a>
+
+                <p class="px-6 py-2 mt-4 text-xs font-semibold text-gray-500 uppercase">공동기기실</p>
+                <a href="#equipment-list" class="sidebar-link flex items-center px-6 py-3 text-gray-700 border-l-4 border-transparent hover:border-red-800">
+                    <i class="fas fa-microscope mr-3"></i> 비품/자산 대장
+                </a>
+                <a href="#reservation" class="sidebar-link flex items-center px-6 py-3 text-gray-700 border-l-4 border-transparent hover:border-red-800">
+                    <i class="fas fa-calendar-check mr-3"></i> 기기 예약
+                </a>
+
+                <p class="px-6 py-2 mt-4 text-xs font-semibold text-gray-500 uppercase">자료실</p>
+                <a href="#archive" class="sidebar-link flex items-center px-6 py-3 text-gray-700 border-l-4 border-transparent hover:border-red-800">
+                    <i class="fas fa-download mr-3"></i> 양식 다운로드
+                </a>
+            </nav>
         </div>
 
-        <!-- Table Example -->
-        <div class="mt-12 bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">공동기기실 비품 현황 (예시)</h2>
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b bg-gray-100">
-                        <th class="p-3">자산명</th>
-                        <th class="p-3">설치장소</th>
-                        <th class="p-3">책임자</th>
-                        <th class="p-3">상태</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b">
-                        <td class="p-3">냉동조직절편기</td>
-                        <td class="p-3">B306호</td>
-                        <td class="p-3">김OO 교수</td>
-                        <td class="p-3 text-green-600 font-bold">사용가능</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="md:ml-64 w-full p-8">
+            <header class="flex justify-between items-center mb-8 bg-white p-4 rounded shadow-sm">
+                <h2 class="text-2xl font-bold text-gray-800">관리 시스템 대시보드</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600 font-medium">관리자 님 환영합니다</span>
+                    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-semibold">Info21 Logout</button>
+                </div>
+            </header>
+
+            <section id="animal-apply" class="mb-12 bg-white p-6 rounded-lg shadow-md border-t-4 border-red-800">
+                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-edit mr-2 khu-text"></i> 동물 반입 신청 (Digital Form)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">연구책임자(교수)</label>
+                        <input type="text" class="w-full border p-2 rounded bg-gray-50" placeholder="교수명 입력">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">IACUC 승인번호</label>
+                        <input type="text" class="w-full border p-2 rounded bg-gray-50" placeholder="예: KHUASP(SE)-26-000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">동물 종/계통</label>
+                        <input type="text" class="w-full border p-2 rounded bg-gray-50" placeholder="예: C57BL/6">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">수량/성별</label>
+                        <input type="text" class="w-full border p-2 rounded bg-gray-50" placeholder="예: 20마리 / 암컷">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">필수 서류 업로드 (IACUC/LMO/교육이수증)</label>
+                        <div class="border-2 border-dashed border-gray-300 p-4 rounded text-center text-gray-500">
+                            파일을 마우스로 끌어오거나 클릭하여 업로드하세요. (PDF, JPG)
+                        </div>
+                    </div>
+                </div>
+                <button class="mt-6 khu-red text-white px-6 py-2 rounded font-bold hover:opacity-90">신청서 제출</button>
+            </section>
+
+            <section id="equipment-list" class="mb-12 bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-800">
+                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-list-check mr-2 text-blue-800"></i> 공동기기실 비품 현황</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 border-b">
+                                <th class="p-3 text-sm font-bold">자산명</th>
+                                <th class="p-3 text-sm font-bold">규격/모델</th>
+                                <th class="p-3 text-sm font-bold">설치장소</th>
+                                <th class="p-3 text-sm font-bold">책임자</th>
+                                <th class="p-3 text-sm font-bold">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-3">냉동조직절편기</td>
+                                <td class="p-3">Cryostat CM1860</td>
+                                <td class="p-3">약학관 B306호</td>
+                                <td class="p-3">김OO 교수</td>
+                                <td class="p-3"><span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-bold">정상</span></td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-3">형광현미경</td>
+                                <td class="p-3">Eclipse Ni-U</td>
+                                <td class="p-3">약학관 B306호</td>
+                                <td class="p-3">박OO 교수</td>
+                                <td class="p-3"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-bold">점검중</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="archive" class="bg-white p-6 rounded-lg shadow-md border-t-4 border-gray-500">
+                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-download mr-2 text-gray-500"></i> 원본 양식 자료실</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center justify-between p-4 border rounded hover:bg-gray-50 transition">
+                        <div class="flex items-center">
+                            <i class="far fa-file-word text-blue-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-sm">실험동물 반입 신청서</p>
+                                <p class="text-xs text-gray-500">HWPX 형식</p>
+                            </div>
+                        </div>
+                        <button class="text-blue-600 font-bold text-sm hover:underline">다운로드</button>
+                    </div>
+                    <div class="flex items-center justify-between p-4 border rounded hover:bg-gray-50 transition">
+                        <div class="flex items-center">
+                            <i class="far fa-file-excel text-green-600 text-2xl mr-3"></i>
+                            <div>
+                                <p class="font-bold text-sm">동물 현황 일지 양식</p>
+                                <p class="text-xs text-gray-500">XLSX 형식</p>
+                            </div>
+                        </div>
+                        <button class="text-green-600 font-bold text-sm hover:underline">다운로드</button>
+                    </div>
+                </div>
+            </section>
         </div>
-    </main>
+    </div>
+
 </body>
 </html>
