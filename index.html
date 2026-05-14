@@ -9,9 +9,14 @@
     <style>
         .khu-red { background-color: #8b0000; }
         .khu-text { color: #8b0000; }
-        /* 초기에는 모든 섹션을 숨김 (자바스크립트가 제어) */
-        .page-section { display: none; }
-        .page-section.active { display: block !important; }
+        
+        /* [안전장치 1] 초기에는 모든 섹션을 보여주고, 자바스크립트가 준비되면 그때 숨깁니다. */
+        .page-section { display: block; margin-bottom: 2rem; }
+        
+        /* [안전장치 2] 자바스크립트가 로드된 후 적용될 스타일 */
+        body.js-ready .page-section { display: none; }
+        body.js-ready .page-section.active { display: block !important; }
+        
         .nav-item.active { background-color: #f3f4f6; color: #8b0000; border-left: 4px solid #8b0000; font-weight: bold; }
         
         /* 캘린더 스타일 */
@@ -39,7 +44,6 @@
             <a href="#animal-apply" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-file-signature mr-3 w-5 text-center"></i> <span>반입/반출 신청</span>
             </a>
-
             <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">공동기기실</div>
             <a href="#assets" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-microscope mr-3 w-5 text-center"></i> <span>실험기기 현황</span>
@@ -47,29 +51,105 @@
             <a href="#reserve" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-calendar-alt mr-3 w-5 text-center"></i> <span>기기 예약 서비스</span>
             </a>
-
-            <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">자료실</div>
-            <a href="#archive" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
-                <i class="fas fa-download mr-3 w-5 text-center"></i> <span>양식 자료실</span>
-            </a>
         </nav>
     </aside>
 
     <main class="flex-1 overflow-y-auto p-8">
         
-        <section id="access" class="page-section">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6 font-serif">동물실 출입 현황 관리</h1>
+        <section id="access" class="page-section active">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">동물실 출입 현황 관리</h1>
             <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gray-50 border-b">
-                        <tr><th class="p-4 text-xs font-bold text-gray-500 uppercase">성명</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">소속</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">학번/사번</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">상태</th></tr>
+                        <tr><th class="p-4 text-xs font-bold text-gray-500 uppercase">성명</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">소속</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">상태</th></tr>
                     </thead>
                     <tbody>
-                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold">박승훈</td><td class="p-4">약학대학</td><td class="p-4 font-mono text-gray-600">2024123456</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">승인완료</span></td></tr>
+                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold text-gray-900">박승훈</td><td class="p-4 text-gray-600">약학대학</td><td class="p-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">승인완료</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="animal-apply" class="page-section">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b-4 border-red
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b-4 border-red-800 pb-2">실험동물 반입/반출 신청</h1>
+            <div class="bg-white p-8 rounded-xl shadow-sm border mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div><label>연구책임자 (교수)</label><input type="text" placeholder="성명 입력"></div>
+                    <div><label>연구번호 (IACUC No.)</label><input type="text" placeholder="KHUASP(SE)-00-000"></div>
+                </div>
+                <button class="khu-red text-white px-8 py-2 rounded font-bold shadow-md">신청서 제출</button>
+            </div>
+        </section>
+
+        <section id="assets" class="page-section">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">실험기기 현황</h1>
+            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 border-b">
+                        <tr><th class="p-4">자산명</th><th class="p-4">규격/모델</th><th class="p-4">설치장소</th><th class="p-4">상태</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold">냉동조직절편기 (Cryostat)</td><td class="p-4">Leica CM1860</td><td class="p-4 text-blue-700 font-bold">B306호</td><td class="p-4 text-green-600 font-bold">정상가동</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="reserve" class="page-section">
+            <div class="mb-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">기기 예약 현황</h1>
+                <div class="font-bold text-red-800 text-xl">2026. 05</div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="calendar-grid">
+                    <div class="calendar-header text-red-600">일</div><div class="calendar-header">월</div><div class="calendar-header">화</div><div class="calendar-header">수</div><div class="calendar-header">목</div><div class="calendar-header">금</div><div class="calendar-header text-blue-600">토</div>
+                    <div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div>
+                    <div class="calendar-day font-bold">1</div><div class="calendar-day font-bold text-blue-600">2</div>
+                    <div class="calendar-day text-red-600">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day bg-yellow-50 font-bold text-red-800">7 (오늘)</div><div class="calendar-day">8</div><div class="calendar-day">9</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // [안전장치 3] 모든 요소가 로드되면 자바스크립트 준비 상태임을 알리고 라우팅 실행
+        function initApp() {
+            document.body.classList.add('js-ready');
+            handleNavigation();
+        }
+
+        function handleNavigation() {
+            const hash = window.location.hash || '#access';
+            const targetId = hash.substring(1);
+            
+            // 모든 섹션 비활성화
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(s => s.classList.remove('active'));
+
+            // 모든 메뉴 비활성화
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(n => n.classList.remove('active'));
+
+            // 대상 활성화
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.classList.add('active');
+            } else {
+                document.getElementById('access').classList.add('active');
+            }
+
+            const activeNav = document.querySelector(`.nav-item[href="${hash}"]`);
+            if (activeNav) activeNav.classList.add('active');
+        }
+
+        window.addEventListener('hashchange', handleNavigation);
+        window.addEventListener('load', initApp);
+        
+        // 즉시 실행 (DOM이 이미 로드된 경우 대비)
+        if (document.readyState === 'complete') {
+            initApp();
+        }
+    </script>
+</body>
+</html>
