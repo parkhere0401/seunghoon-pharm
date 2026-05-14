@@ -9,23 +9,19 @@
     <style>
         .khu-red { background-color: #8b0000; }
         .khu-text { color: #8b0000; }
-        
-        /* [안전장치 1] 초기에는 모든 섹션을 보여주고, 자바스크립트가 준비되면 그때 숨깁니다. */
-        .page-section { display: block; margin-bottom: 2rem; }
-        
-        /* [안전장치 2] 자바스크립트가 로드된 후 적용될 스타일 */
-        body.js-ready .page-section { display: none; }
-        body.js-ready .page-section.active { display: block !important; }
-        
+        .page-section { display: none; }
+        .page-section.active { display: block !important; }
         .nav-item.active { background-color: #f3f4f6; color: #8b0000; border-left: 4px solid #8b0000; font-weight: bold; }
         
-        /* 캘린더 스타일 */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid #e5e7eb; }
-        .calendar-day { min-height: 80px; border: 1px solid #f3f4f6; padding: 0.5rem; background: white; font-size: 0.75rem; }
-        .calendar-header { background-color: #f9fafb; font-weight: bold; text-align: center; padding: 0.5rem; border: 1px solid #e5e7eb; }
+        /* 폼 스타일 - HWPX 표 느낌 강조 */
+        .form-table { width: 100%; border-collapse: collapse; background: white; }
+        .form-table th { background-color: #f9fafb; border: 1px solid #e5e7eb; padding: 12px; font-size: 13px; color: #4b5563; text-align: left; width: 150px; }
+        .form-table td { border: 1px solid #e5e7eb; padding: 10px; }
         
-        input, select, textarea { background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.5rem; width: 100%; font-size: 0.875rem; }
-        label { display: block; font-size: 0.75rem; font-weight: 700; color: #4b5563; margin-bottom: 0.25rem; }
+        input, select, textarea { width: 100%; border: 1px solid #d1d5db; border-radius: 4px; padding: 6px 10px; font-size: 14px; outline: none; }
+        input:focus { border-color: #8b0000; ring: 1px #8b0000; }
+
+        .tab-btn.active { border-bottom: 3px solid #8b0000; color: #8b0000; font-weight: bold; }
     </style>
 </head>
 <body class="bg-gray-50 flex h-screen overflow-hidden">
@@ -44,6 +40,7 @@
             <a href="#animal-apply" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-file-signature mr-3 w-5 text-center"></i> <span>반입/반출 신청</span>
             </a>
+
             <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">공동기기실</div>
             <a href="#assets" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-microscope mr-3 w-5 text-center"></i> <span>실험기기 현황</span>
@@ -59,25 +56,129 @@
         <section id="access" class="page-section active">
             <h1 class="text-2xl font-bold text-gray-800 mb-6">동물실 출입 현황 관리</h1>
             <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left">
                     <thead class="bg-gray-50 border-b">
                         <tr><th class="p-4 text-xs font-bold text-gray-500 uppercase">성명</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">소속</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">상태</th></tr>
                     </thead>
                     <tbody>
-                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold text-gray-900">박승훈</td><td class="p-4 text-gray-600">약학대학</td><td class="p-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">승인완료</span></td></tr>
+                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold text-gray-900">박승훈</td><td class="p-4 text-gray-600">약학대학</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">승인완료</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="animal-apply" class="page-section">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b-4 border-red-800 pb-2">실험동물 반입/반출 신청</h1>
-            <div class="bg-white p-8 rounded-xl shadow-sm border mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div><label>연구책임자 (교수)</label><input type="text" placeholder="성명 입력"></div>
-                    <div><label>연구번호 (IACUC No.)</label><input type="text" placeholder="KHUASP(SE)-00-000"></div>
+            <div class="mb-6 border-b-2 border-gray-200 flex space-x-8">
+                <button onclick="switchTab('import-form')" id="import-tab" class="tab-btn active pb-2 text-lg">실험동물 반입 신청</button>
+                <button onclick="switchTab('export-form')" id="export-tab" class="tab-btn pb-2 text-lg text-gray-400">실험동물 반출 신청</button>
+            </div>
+
+            <div id="import-form" class="form-container">
+                <div class="bg-white p-6 shadow-sm border border-gray-200 rounded-lg">
+                    <h2 class="text-center text-2xl font-bold mb-8 underline decoration-double">실험동물 반입 신청서</h2>
+                    
+                    <table class="form-table mb-6">
+                        <tr>
+                            <th>연구책임자(교수)</th>
+                            <td><input type="text"></td>
+                            <th>신청인(연구원)</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>연락처(Cell)</th>
+                            <td><input type="text" placeholder="010-0000-0000"></td>
+                            <th>실험실 번호</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>연구과제명</th>
+                            <td colspan="3"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>IACUC 승인번호</th>
+                            <td><input type="text" placeholder="KHUASP(SE)-00-000"></td>
+                            <th>LMO 승인번호</th>
+                            <td><input type="text" placeholder="해당 시 작성"></td>
+                        </tr>
+                    </table>
+
+                    <h3 class="font-bold mb-2 text-sm text-gray-700">● 동물 정보</h3>
+                    <table class="form-table mb-6">
+                        <tr>
+                            <th>동물 종/계통</th>
+                            <td><input type="text" placeholder="예: Mouse / C57BL/6"></td>
+                            <th>성별</th>
+                            <td>
+                                <select>
+                                    <option>수컷(Male)</option>
+                                    <option>암컷(Female)</option>
+                                    <option>혼합(Mixed)</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>수량(두)</th>
+                            <td><input type="number"></td>
+                            <th>주령/체중</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>반입처(공급처)</th>
+                            <td><input type="text" placeholder="예: 오리엔트바이오"></td>
+                            <th>반입 예정일</th>
+                            <td><input type="date"></td>
+                        </tr>
+                    </table>
+
+                    <div class="flex justify-end space-x-3">
+                        <button class="bg-gray-200 text-gray-700 px-6 py-2 rounded font-bold">임시저장</button>
+                        <button class="khu-red text-white px-8 py-2 rounded font-bold shadow-md">반입 신청 제출</button>
+                    </div>
                 </div>
-                <button class="khu-red text-white px-8 py-2 rounded font-bold shadow-md">신청서 제출</button>
+            </div>
+
+            <div id="export-form" class="form-container hidden">
+                <div class="bg-white p-6 shadow-sm border border-gray-200 rounded-lg">
+                    <h2 class="text-center text-2xl font-bold mb-8 underline decoration-double">실험동물 반출 신청서</h2>
+                    
+                    <table class="form-table mb-6">
+                        <tr>
+                            <th>연구책임자(교수)</th>
+                            <td><input type="text"></td>
+                            <th>신청인(연구원)</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>연구과제명</th>
+                            <td colspan="3"><input type="text"></td>
+                        </tr>
+                    </table>
+
+                    <h3 class="font-bold mb-2 text-sm text-gray-700">● 반출 상세 정보</h3>
+                    <table class="form-table mb-6">
+                        <tr>
+                            <th>동물 종/계통</th>
+                            <td><input type="text"></td>
+                            <th>수량(두)</th>
+                            <td><input type="number"></td>
+                        </tr>
+                        <tr>
+                            <th>반출 사유</th>
+                            <td colspan="3"><textarea rows="2" placeholder="사체 처리 / 타 기관 이송 등"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th>반출 예정일</th>
+                            <td><input type="date"></td>
+                            <th>행선지</th>
+                            <td><input type="text" placeholder="예: 504호 실험실 / 외부기관명"></td>
+                        </tr>
+                    </table>
+
+                    <div class="flex justify-end space-x-3">
+                        <button class="bg-gray-200 text-gray-700 px-6 py-2 rounded font-bold">임시저장</button>
+                        <button class="khu-red text-white px-8 py-2 rounded font-bold shadow-md">반출 신청 제출</button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -89,67 +190,54 @@
                         <tr><th class="p-4">자산명</th><th class="p-4">규격/모델</th><th class="p-4">설치장소</th><th class="p-4">상태</th></tr>
                     </thead>
                     <tbody>
-                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold">냉동조직절편기 (Cryostat)</td><td class="p-4">Leica CM1860</td><td class="p-4 text-blue-700 font-bold">B306호</td><td class="p-4 text-green-600 font-bold">정상가동</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold text-gray-800">냉동조직절편기 (Cryostat)</td><td class="p-4">Leica CM1860</td><td class="p-4 font-bold text-blue-700">약학관 B306호</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">정상가동</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="reserve" class="page-section">
-            <div class="mb-6 flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-gray-800">기기 예약 현황</h1>
-                <div class="font-bold text-red-800 text-xl">2026. 05</div>
-            </div>
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <div class="calendar-grid">
-                    <div class="calendar-header text-red-600">일</div><div class="calendar-header">월</div><div class="calendar-header">화</div><div class="calendar-header">수</div><div class="calendar-header">목</div><div class="calendar-header">금</div><div class="calendar-header text-blue-600">토</div>
-                    <div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div><div class="calendar-day bg-gray-50"></div>
-                    <div class="calendar-day font-bold">1</div><div class="calendar-day font-bold text-blue-600">2</div>
-                    <div class="calendar-day text-red-600">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day bg-yellow-50 font-bold text-red-800">7 (오늘)</div><div class="calendar-day">8</div><div class="calendar-day">9</div>
-                </div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">기기 예약 현황</h1>
+            <div class="bg-white rounded-xl shadow-sm border p-6 text-center text-gray-400">
+                캘린더 시스템 연동 구역 (준비 중)
             </div>
         </section>
 
     </main>
 
     <script>
-        // [안전장치 3] 모든 요소가 로드되면 자바스크립트 준비 상태임을 알리고 라우팅 실행
-        function initApp() {
-            document.body.classList.add('js-ready');
-            handleNavigation();
-        }
-
-        function handleNavigation() {
+        // 메뉴 라우팅
+        function router() {
             const hash = window.location.hash || '#access';
             const targetId = hash.substring(1);
             
-            // 모든 섹션 비활성화
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-            // 모든 메뉴 비활성화
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(n => n.classList.remove('active'));
-
-            // 대상 활성화
-            const target = document.getElementById(targetId);
-            if (target) {
-                target.classList.add('active');
-            } else {
-                document.getElementById('access').classList.add('active');
-            }
-
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) targetSection.classList.add('active');
+            
             const activeNav = document.querySelector(`.nav-item[href="${hash}"]`);
             if (activeNav) activeNav.classList.add('active');
         }
 
-        window.addEventListener('hashchange', handleNavigation);
-        window.addEventListener('load', initApp);
-        
-        // 즉시 실행 (DOM이 이미 로드된 경우 대비)
-        if (document.readyState === 'complete') {
-            initApp();
+        // 반입/반출 탭 전환
+        function switchTab(tabId) {
+            document.querySelectorAll('.form-container').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('text-gray-400');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            const activeTabBtn = tabId === 'import-form' ? document.getElementById('import-tab') : document.getElementById('export-tab');
+            activeTabBtn.classList.add('active');
+            activeTabBtn.classList.remove('text-gray-400');
         }
+
+        window.addEventListener('hashchange', router);
+        window.addEventListener('load', router);
     </script>
 </body>
 </html>
