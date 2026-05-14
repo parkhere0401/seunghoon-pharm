@@ -9,20 +9,18 @@
     <style>
         .khu-red { background-color: #8b0000; }
         .khu-text { color: #8b0000; }
+        /* 초기에는 모든 섹션을 숨김 (자바스크립트가 제어) */
         .page-section { display: none; }
         .page-section.active { display: block !important; }
         .nav-item.active { background-color: #f3f4f6; color: #8b0000; border-left: 4px solid #8b0000; font-weight: bold; }
         
-        /* 캘린더 전용 스타일 */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); border-top: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; }
-        .calendar-day { min-height: 100px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 0.5rem; background: white; }
-        .calendar-day.other-month { background-color: #f9fafb; color: #d1d5db; }
-        .calendar-day.today { background-color: #fffbeb; }
-        .status-badge { font-size: 0.65rem; padding: 2px 4px; border-radius: 4px; display: block; margin-top: 2px; font-weight: bold; }
-        .status-full { background-color: #fee2e2; color: #991b1b; }
-        .status-part { background-color: #dcfce7; color: #166534; }
+        /* 캘린더 스타일 */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid #e5e7eb; }
+        .calendar-day { min-height: 80px; border: 1px solid #f3f4f6; padding: 0.5rem; background: white; font-size: 0.75rem; }
+        .calendar-header { background-color: #f9fafb; font-weight: bold; text-align: center; padding: 0.5rem; border: 1px solid #e5e7eb; }
         
-        input, select { background-color: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.5rem; width: 100%; font-size: 0.875rem; }
+        input, select, textarea { background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.5rem; width: 100%; font-size: 0.875rem; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: #4b5563; margin-bottom: 0.25rem; }
     </style>
 </head>
 <body class="bg-gray-50 flex h-screen overflow-hidden">
@@ -35,55 +33,43 @@
         
         <nav class="flex-1 overflow-y-auto pt-4">
             <div class="px-6 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">동물실습실</div>
-            <a href="#access" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#access" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-id-card-alt mr-3 w-5 text-center"></i> <span>출입 현황 관리</span>
             </a>
-            <a href="#animal-apply" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#animal-apply" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-file-signature mr-3 w-5 text-center"></i> <span>반입/반출 신청</span>
             </a>
 
             <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">공동기기실</div>
-            <a href="#assets" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#assets" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-microscope mr-3 w-5 text-center"></i> <span>실험기기 현황</span>
             </a>
-            <a href="#reserve" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+            <a href="#reserve" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
                 <i class="fas fa-calendar-alt mr-3 w-5 text-center"></i> <span>기기 예약 서비스</span>
             </a>
+
+            <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">자료실</div>
+            <a href="#archive" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-download mr-3 w-5 text-center"></i> <span>양식 자료실</span>
+            </a>
         </nav>
-        
-        <div class="p-4 border-t">
-            <button class="w-full bg-gray-100 text-gray-600 py-2 rounded font-semibold text-sm hover:bg-gray-200">Info21 로그아웃</button>
-        </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 relative">
+    <main class="flex-1 overflow-y-auto p-8">
         
-        <section id="access" class="page-section active">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">동물실 출입 현황 관리</h1>
+        <section id="access" class="page-section">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 font-serif">동물실 출입 현황 관리</h1>
             <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-                <table class="w-full text-left">
+                <table class="w-full text-left border-collapse">
                     <thead class="bg-gray-50 border-b">
-                        <tr><th class="p-4">성명</th><th class="p-4">소속</th><th class="p-4">학번/사번</th><th class="p-4">상태</th></tr>
+                        <tr><th class="p-4 text-xs font-bold text-gray-500 uppercase">성명</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">소속</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">학번/사번</th><th class="p-4 text-xs font-bold text-gray-500 uppercase">상태</th></tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b"><td class="p-4 font-bold">박승훈</td><td class="p-4">약학대학</td><td class="p-4 font-mono">2024123456</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">승인완료</span></td></tr>
+                        <tr class="hover:bg-gray-50"><td class="p-4 font-bold">박승훈</td><td class="p-4">약학대학</td><td class="p-4 font-mono text-gray-600">2024123456</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">승인완료</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="animal-apply" class="page-section">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b-4 border-red-800 pb-2">실험동물 반입/반출 신청</h1>
-            <div class="bg-white p-8 rounded-xl shadow-sm border">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div><label class="block text-xs font-bold mb-1">연구책임자</label><input type="text" placeholder="성명 입력"></div>
-                    <div><label class="block text-xs font-bold mb-1">IACUC 승인번호</label><input type="text" placeholder="KHUASP(SE)-00-000"></div>
-                </div>
-                <button class="khu-red text-white px-10 py-3 rounded-lg font-bold shadow-lg">신청서 제출</button>
-            </div>
-        </section>
-
-        <section id="assets" class="page-section">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">실험기기 현황</h1>
-            <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-                <table class="w-full text
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b-4 border-red
