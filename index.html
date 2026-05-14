@@ -3,46 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KHU 약대 동물실 & 공동기기 통합 관리</title>
+    <title>KHU 약대 통합관리시스템</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .khu-red { background-color: #8b0000; }
         .khu-text { color: #8b0000; }
-        .nav-item.active { background-color: #f3f4f6; color: #8b0000; border-left: 4px solid #8b0000; }
+        .nav-item.active { background-color: #f3f4f6; color: #8b0000; border-left: 4px solid #8b0000; font-weight: bold; }
         .page-section { display: none; }
         .page-section.active { display: block; }
     </style>
 </head>
 <body class="bg-gray-50 flex h-screen overflow-hidden">
 
-    <!-- Sidebar Navigation -->
     <aside class="w-64 bg-white shadow-xl flex-shrink-0 flex flex-col border-r border-gray-200">
         <div class="p-6 khu-red text-white flex items-center space-x-2">
-            <i class="fas fa-microscope text-2xl"></i>
+            <i class="fas fa-university text-2xl"></i>
             <span class="font-bold text-lg leading-tight">약학대학<br><span class="text-xs font-normal">통합관리시스템</span></span>
         </div>
         
         <nav class="flex-1 overflow-y-auto pt-4">
             <div class="px-6 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">동물실습실</div>
-            <a href="#" onclick="showSection('access')" class="nav-item active flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
-                <i class="fas fa-id-card-alt mr-3"></i> <span>출입 현황 관리</span>
+            <a href="#access" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-id-card-alt mr-3 w-5 text-center"></i> <span>출입 현황 관리</span>
             </a>
-            <a href="#" onclick="showSection('animal-request')" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
-                <i class="fas fa-file-signature mr-3"></i> <span>반입/반출 신청</span>
+            <a href="#animal-apply" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-file-signature mr-3 w-5 text-center"></i> <span>반입/반출 신청</span>
             </a>
 
             <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">공동기기실</div>
-            <a href="#" onclick="showSection('assets')" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
-                <i class="fas fa-boxes-stacked mr-3"></i> <span>비품/자산 대장</span>
+            <a href="#assets" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-boxes-stacked mr-3 w-5 text-center"></i> <span>비품/자산 대장</span>
             </a>
-            <a href="#" onclick="showSection('reserve')" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
-                <i class="fas fa-calendar-alt mr-3"></i> <span>기기 예약 서비스</span>
+            <a href="#reserve" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-calendar-alt mr-3 w-5 text-center"></i> <span>기기 예약 서비스</span>
             </a>
 
             <div class="px-6 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">시스템</div>
-            <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
-                <i class="fas fa-cog mr-3"></i> <span>설정</span>
+            <a href="#archive" class="nav-item flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-download mr-3 w-5 text-center"></i> <span>양식 자료실</span>
             </a>
         </nav>
         
@@ -53,422 +52,45 @@
         </div>
     </aside>
 
-    <!-- Main Content Area -->
     <main class="flex-1 overflow-y-auto p-8 relative">
         
-        <!-- Section: 출입 현황 관리 -->
-        <section id="access" class="page-section active animate-fade-in">
+        <section id="access" class="page-section">
             <div class="flex justify-between items-end mb-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">동물실 출입 현황 및 권한 관리</h1>
+                    <h1 class="text-2xl font-bold text-gray-800">동물실 출입 현황 관리</h1>
                     <p class="text-gray-500 text-sm">출입 통제 카드 신청 목록 및 권한 부여 상태를 관리합니다.</p>
                 </div>
-                <button class="khu-red text-white px-4 py-2 rounded text-sm font-bold shadow-md hover:opacity-90">
-                    <i class="fas fa-plus mr-1"></i> 신규 카드 신청
-                </button>
             </div>
-            
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">연번</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">소속(학과)</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">성명</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">학번/사번</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">카드번호(뒷5자리)</th>
-                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">상태</th>
+                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">성명</th>
+                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">소속</th>
+                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">학번/사번</th>
+                            <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">상태</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        <!-- CSV 기반 데이터 렌더링 -->
-                        
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
+                            <td class="px-6 py-4 text-sm font-bold text-gray-900">박승훈</td>
+                            <td class="px-6 py-4 text-sm text-gray-600">약학대학</td>
+                            <td class="px-6 py-4 text-sm font-mono text-gray-600">2024123456</td>
+                            <td class="px-6 py-4 text-xs"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span></td>
                         </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">2</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">3</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">4</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">5</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">6</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">7</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">8</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">9</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm text-gray-600">10</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-bold">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-sm text-gray-600 font-mono">-</td>
-                            <td class="px-6 py-4 text-xs">
-                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">권한 승인</span>
-                            </td>
-                        </tr>
-                        
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- Section: 비품/자산 대장 -->
-        <section id="assets" class="page-section animate-fade-in">
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">공동기기실 비품 및 자산 대장</h1>
-                <p class="text-gray-500 text-sm">약학대학에서 관리 중인 주요 실험 장비 및 자산 목록입니다.</p>
+        <section id="animal-apply" class="page-section">
+            <div class="mb-6 border-b-4 border-red-800 pb-4">
+                <h1 class="text-2xl font-bold text-gray-800">실험동물 반입/반출 신청</h1>
+                <p class="text-gray-500 text-sm">IACUC 심의번호 및 동물 정보를 입력하여 신청합니다.</p>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- 기기 카드 (이미지 포함) -->
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="냉동조직절편기CRYOCUT MICROTOME)" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">냉동조직절편기CRYOCUT MICROTOME)</h3>
-                        <p class="text-xs text-gray-500 mb-3">CM1860 CRYOSTAT Cryocut Microtome with Peltier Cooling System</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 류종훈</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="고감도 광자검출기" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">고감도 광자검출기</h3>
-                        <p class="text-xs text-gray-500 mb-3">NS-PMT500K</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 김동현</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="현미경" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">현미경</h3>
-                        <p class="text-xs text-gray-500 mb-3">나노 K1-Fluo RT in-vivo(GBV/3-Ch)</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 김동현</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="냉각기" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">냉각기</h3>
-                        <p class="text-xs text-gray-500 mb-3">SAKURA Tissue-TEK TEC-5</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 김동준</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="조직절편기" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">조직절편기</h3>
-                        <p class="text-xs text-gray-500 mb-3">SAKURA Accu-Cut SRM200</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 김동준</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="화학발광이미지분석장치" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">화학발광이미지분석장치</h3>
-                        <p class="text-xs text-gray-500 mb-3">바이오레드/ChemiDoc XRS+ System(BR170-8265)</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 류종훈</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="컴퓨터 Pentium 4" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">컴퓨터 Pentium 4</h3>
-                        <p class="text-xs text-gray-500 mb-3">삼성 DB400T3A-D09/C</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 류종훈</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
-                    <div class="h-40 bg-gray-200 relative">
-                        <img src="https://images.unsplash.com/photo-1579154235602-3c2c2aa9d72f?auto=format&fit=crop&w=400&q=80" 
-                             alt="조직절편기" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">정기점검 대상</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-tighter">약학관B306호 (공동기기실)</p>
-                        <h3 class="font-bold text-gray-800 truncate mb-1">조직절편기</h3>
-                        <p class="text-xs text-gray-500 mb-3">cm1850 cryostat</p>
-                        <div class="flex justify-between items-center pt-3 border-t">
-                            <span class="text-[10px] font-bold text-gray-400">책임자: 류종훈</span>
-                            <span class="bg-green-50 text-green-600 text-[10px] px-2 py-1 rounded font-bold">정상 가동</span>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-
-        <!-- Section: 기기 예약 서비스 -->
-        <section id="reserve" class="page-section animate-fade-in">
-            <div class="mb-6 flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800">실험 기기 예약 시스템</h1>
-                    <p class="text-gray-500 text-sm">공동 기기실 장비의 가동 일정을 확인하고 예약을 신청합니다.</p>
-                </div>
-                <div class="flex bg-white rounded-lg shadow-sm border p-1 space-x-1 text-sm font-medium">
-                    <button class="px-4 py-1 bg-gray-100 rounded">주간</button>
-                    <button class="px-4 py-1 text-gray-500">월간</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                <!-- 예약 폼 -->
-                <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-gray-200 self-start">
-                    <h3 class="font-bold text-gray-800 mb-4 border-b pb-2">예약 신청하기</h3>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">장비 선택</label>
-                            <select class="w-full border p-2 rounded text-sm bg-gray-50 focus:ring-2 focus:ring-red-200">
-                                <option>선택하세요</option>
-                                <option>냉동조직절편기 (Cryostat)</option>
-                                <option>형광현미경 (Eclipse Ni-U)</option>
-                                <option>유세포분석기 (FACS)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">예약 날짜</label>
-                            <input type="date" class="w-full border p-2 rounded text-sm bg-gray-50">
-                        </div>
-                        <div class="flex space-x-2">
-                            <div class="flex-1">
-                                <label class="block text-xs font-bold text-gray-500 mb-1">시작</label>
-                                <input type="time" class="w-full border p-2 rounded text-sm bg-gray-50">
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-xs font-bold text-gray-500 mb-1">종료</label>
-                                <input type="time" class="w-full border p-2 rounded text-sm bg-gray-50">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">사용 목적</label>
-                            <textarea class="w-full border p-2 rounded text-sm bg-gray-50" rows="2" placeholder="간단히 기재"></textarea>
-                        </div>
-                        <button class="w-full khu-red text-white py-2 rounded font-bold shadow hover:opacity-90">예약 신청</button>
-                    </div>
-                </div>
-
-                <!-- 시간표 예시 -->
-                <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="font-bold text-gray-700">냉동조직절편기 (B306호) 예약 현황</span>
-                        <span class="text-xs text-gray-400">2026. 05. 14 ~ 2026. 05. 20</span>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 border-t pt-4">
-                        
-                        <div class="text-center font-bold text-gray-500 text-xs mb-2">월</div>
-                        <div class="text-center font-bold text-gray-500 text-xs mb-2">화</div>
-                        <div class="text-center font-bold text-gray-500 text-xs mb-2 text-red-600">수(오늘)</div>
-                        <div class="text-center font-bold text-gray-500 text-xs mb-2">목</div>
-                        <div class="text-center font-bold text-gray-500 text-xs mb-2">금</div>
-                        <div class="text-center font-bold text-gray-400 text-xs mb-2 italic">토</div>
-                        <div class="text-center font-bold text-gray-400 text-xs mb-2 italic">일</div>
-                        
-                        <!-- 시간표 슬롯 (샘플) -->
-                        
-                        <div class="bg-gray-50 h-32 rounded p-1 space-y-1"></div>
-                        <div class="bg-gray-50 h-32 rounded p-1 space-y-1">
-                            <div class="bg-blue-100 text-blue-700 text-[10px] p-1 rounded border-l-2 border-blue-500">10:00 - 12:00 (연구실A)</div>
-                        </div>
-                        <div class="bg-red-50 h-32 rounded p-1 space-y-1 border-2 border-red-100">
-                            <div class="bg-red-100 text-red-700 text-[10px] p-1 rounded border-l-2 border-red-500 font-bold">14:00 - 16:00 (본인)</div>
-                        </div>
-                        <div class="bg-gray-50 h-32 rounded p-1 space-y-1"></div>
-                        <div class="bg-gray-50 h-32 rounded p-1 space-y-1">
-                            <div class="bg-green-100 text-green-700 text-[10px] p-1 rounded border-l-2 border-green-500">09:00 - 17:00 (정기점검)</div>
-                        </div>
-                        <div class="bg-white border h-32 rounded"></div>
-                        <div class="bg-white border h-32 rounded"></div>
-                        
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="animal-request" class="page-section">
-            <h1 class="text-2xl font-bold">반입/반출 신청 서비스 (개발중)</h1>
-        </section>
-
-    </main>
-
-    <script>
-        function showSection(id) {
-            // 모든 섹션 숨기기
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            // 모든 내비게이션 아이템 활성화 해제
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            
-            // 선택한 섹션 보여주기
-            document.getElementById(id).classList.add('active');
-            
-            // 선택한 내비게이션 아이템 강조
-            const activeNav = Array.from(document.querySelectorAll('.nav-item')).find(item => item.getAttribute('onclick').includes(id));
-            if(activeNav) activeNav.classList.add('active');
-        }
-    </script>
-</body>
-</html>
+                            <label class="block text-xs font-bold text-gray-500 mb-1">연구책임자</label>
+                            <input type="text" class="w-full border p-2
